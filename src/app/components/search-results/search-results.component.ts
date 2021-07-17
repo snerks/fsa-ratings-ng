@@ -14,8 +14,14 @@ import { Establishment, SearchResult } from './search-results.model';
   styleUrls: ['./search-results.component.scss'],
 })
 export class SearchResultsComponent implements AfterViewInit {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator, { static: true })
+  paginator!: MatPaginator;
+
+  @ViewChild(MatSort, { static: true })
+  sort!: MatSort;
+
   @ViewChild(MatTable) table!: MatTable<Establishment>;
   dataSource: SearchResultsDataSource;
 
