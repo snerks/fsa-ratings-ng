@@ -8,7 +8,7 @@ import { SearchOptions } from '../search-form/search-form.component';
 })
 export class SearchComponent implements OnInit {
   private _searchOptions: SearchOptions = {
-    businessName: 'steak',
+    businessName: '',
     address: 'Bristol',
     sortOptionKey: 'alpha',
   };

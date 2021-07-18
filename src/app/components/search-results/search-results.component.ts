@@ -31,7 +31,7 @@ export class SearchResultsComponent implements AfterViewInit {
   getSearchResultsSubscription?: Subscription;
 
   private _searchOptions: SearchOptions = {
-    businessName: 'steak',
+    businessName: '',
     address: 'Bristol',
     sortOptionKey: 'alpha',
   };
