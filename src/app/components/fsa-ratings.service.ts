@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SearchResult } from './search-results/search-results.model';
+import {
+  Establishment,
+  SearchResult,
+} from './search-results/search-results.model';
 
 @Injectable({
   providedIn: 'root',
@@ -8,16 +11,26 @@ import { SearchResult } from './search-results/search-results.model';
 export class FsaRatingsService {
   constructor(private httpClient: HttpClient) {}
 
+  baseUrl = 'https://api.ratings.food.gov.uk/';
+
+  headersOptions = {
+    headers: {
+      'x-api-version': '2',
+    },
+  };
   getSearchResult(name: string, address: string, sortOptionKey: string) {
     return this.httpClient.get<SearchResult>(
-      `https://api.ratings.food.gov.uk/Establishments?name=${name}&address=${encodeURIComponent(
+      `${this.baseUrl}Establishments?name=${name}&address=${encodeURIComponent(
         address
       )}&sortOptionKey=${sortOptionKey}&pageSize=100`,
-      {
-        headers: {
-          'x-api-version': '2',
-        },
-      }
+      this.headersOptions
+    );
+  }
+
+  getEstablishment(FHRSID: number) {
+    return this.httpClient.get<Establishment>(
+      `${this.baseUrl}Establishments/${FHRSID}`,
+      this.headersOptions
     );
   }
 }

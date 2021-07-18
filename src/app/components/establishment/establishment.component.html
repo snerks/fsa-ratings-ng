@@ -1,0 +1,52 @@
+<mat-card class="example-card" *ngIf="establishment$ | async as establishment">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{ establishment.BusinessName }}</mat-card-title>
+    <mat-card-subtitle>{{ establishment.BusinessType }}</mat-card-subtitle>
+  </mat-card-header>
+  <img
+    *ngIf="false"
+    mat-card-image
+    src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+    alt="Photo of a Shiba Inu"
+  />
+  <mat-card-content>
+    <div style="margin-bottom: 25px">
+      <p><b>Address</b></p>
+      <p>{{ establishment.AddressLine1 }}</p>
+      <p>{{ establishment.AddressLine2 }}</p>
+      <p>{{ establishment.AddressLine3 }}</p>
+      <p>{{ establishment.AddressLine4 }}</p>
+      <p>{{ establishment.PostCode }}</p>
+      <p>Phone: {{ establishment.Phone || "N/A" }}</p>
+      <a
+        mat-flat-button
+        color="primary"
+        [href]="getMapUrl(establishment)"
+        target="_blank"
+        >Map</a
+      >
+    </div>
+    <div>Rating Date: {{ establishment.RatingDate | date }}</div>
+    <div>Rating Value: {{ establishment.RatingValue }}</div>
+    <ul>
+      <li *ngIf="establishment.scores.Hygiene !== null">
+        Hygiene: {{ establishment.scores.Hygiene }}
+      </li>
+      <li *ngIf="establishment.scores.Structural !== null">
+        Structural: {{ establishment.scores.Structural }}
+      </li>
+      <li *ngIf="establishment.scores.ConfidenceInManagement !== null">
+        Confidence In Management:
+        {{ establishment.scores.ConfidenceInManagement }}
+      </li>
+    </ul>
+  </mat-card-content>
+  <!-- <mat-card-actions>
+    <button mat-button>LIKE</button>
+    <button mat-button>SHARE</button>
+  </mat-card-actions> -->
+</mat-card>
+<pre *ngIf="false">
+  {{ establishment$ | async | json }}
+</pre>

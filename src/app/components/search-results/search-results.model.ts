@@ -19,9 +19,9 @@ export interface Establishment {
   AddressLine4: string;
   PostCode: string;
   Phone: string;
-  RatingValue: string;
+  RatingValue: number | string;
   RatingKey: string;
-  RatingDate: string;
+  RatingDate: Date;
   LocalAuthorityCode: string;
   LocalAuthorityName: string;
   LocalAuthorityWebSite: string;

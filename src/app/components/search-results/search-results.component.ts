@@ -52,6 +52,7 @@ export class SearchResultsComponent implements AfterViewInit {
       )
       .subscribe(
         (result) => {
+          this.paginator.pageIndex = 0;
           this.dataSource.searchResultSubject.next(result);
         },
         (err) => {
@@ -65,7 +66,13 @@ export class SearchResultsComponent implements AfterViewInit {
   }
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['FHRSID', 'BusinessName', 'PostCode', 'RatingValue'];
+  displayedColumns = [
+    'FHRSID',
+    'BusinessName',
+    'PostCode',
+    'RatingValue',
+    'Details',
+  ];
 
   constructor(private fsaRatingsService: FsaRatingsService) {
     this.dataSource = new SearchResultsDataSource();
