@@ -14,8 +14,6 @@
             />
           </mat-form-field>
         </div>
-      </div>
-      <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
             <input matInput placeholder="Address" formControlName="address" />
@@ -26,8 +24,10 @@
             </mat-error>
           </mat-form-field>
         </div>
+      </div>
+      <div class="row">
         <div class="col">
-          <mat-form-field class="full-width">
+          <!-- <mat-form-field class="full-width">
             <input
               matInput
               placeholder="Sort Option Key"
@@ -38,6 +38,17 @@
             >
               Sort option key is <strong>required</strong>
             </mat-error>
+          </mat-form-field> -->
+          <mat-form-field appearance="fill">
+            <mat-label>Sort Options</mat-label>
+            <mat-select formControlName="sortOptionKey">
+              <mat-option
+                *ngFor="let sortOption of sortOptions"
+                [value]="sortOption.sortOptionKey"
+              >
+                {{ sortOption.sortOptionName }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>

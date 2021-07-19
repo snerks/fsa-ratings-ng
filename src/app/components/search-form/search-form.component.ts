@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { sortOptionsResponse } from './sort-options.model';
 
 export interface SearchOptions {
   businessName?: string;
@@ -30,6 +31,8 @@ export class SearchFormComponent implements OnInit {
     // ],
     // shipping: ['free', Validators.required]
   });
+
+  sortOptions = sortOptionsResponse.sortOptions;
 
   hasUnitNumber = false;
 
