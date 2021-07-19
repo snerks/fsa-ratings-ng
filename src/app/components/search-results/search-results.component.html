@@ -37,8 +37,12 @@
     <ng-container matColumnDef="Details">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Details</th>
       <td mat-cell *matCellDef="let row">
-        <a [routerLink]="['/establishment', row.FHRSID]">
-          <span class="badge">Details</span>
+        <a
+          [routerLink]="['/establishment', row.FHRSID]"
+          mat-flat-button
+          color="primary"
+        >
+          Details
         </a>
       </td>
     </ng-container>
