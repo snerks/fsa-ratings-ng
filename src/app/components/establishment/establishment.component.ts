@@ -61,7 +61,10 @@ export class EstablishmentComponent implements OnInit, OnDestroy {
         this.dataSource = [
           {
             category: 'Confidence',
-            score: item.scores.ConfidenceInManagement || -1,
+            score:
+              item.scores.ConfidenceInManagement === null
+                ? -1
+                : item.scores.ConfidenceInManagement,
             description:
               this.getScoreDescriptor(
                 'Confidence',
@@ -70,14 +73,15 @@ export class EstablishmentComponent implements OnInit, OnDestroy {
           },
           {
             category: 'Structural',
-            score: item.scores.Structural || -1,
+            score:
+              item.scores.Structural === null ? -1 : item.scores.Structural,
             description:
               this.getScoreDescriptor('Structural', item.scores.Structural) ||
               '',
           },
           {
             category: 'Hygiene',
-            score: item.scores.Hygiene || -1,
+            score: item.scores.Hygiene === null ? -1 : item.scores.Hygiene,
             description:
               this.getScoreDescriptor('Hygiene', item.scores.Hygiene) || '',
           },
