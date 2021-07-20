@@ -11,13 +11,113 @@
     alt="Photo of a Shiba Inu"
   />
   <mat-card-content>
+    <div *ngIf="isNumeric(establishment.RatingValue)">
+      Rating Date: {{ establishment.RatingDate | date }}
+    </div>
+    <div *ngIf="false">
+      Rating Value: {{ formatRatingValueLocal(establishment.RatingValue) }}
+    </div>
+    <div>
+      Rating Value: {{ formatRatingValueLocal(establishment.RatingName) }}
+    </div>
+
+    <ul *ngIf="false">
+      <li *ngIf="establishment.scores.Hygiene !== null">
+        Hygiene: {{ establishment.scores.Hygiene }} [{{
+          getScoreDescriptor("Hygiene", establishment.scores.Hygiene)
+        }}]
+      </li>
+      <li *ngIf="establishment.scores.Structural !== null">
+        Structural: {{ establishment.scores.Structural }} [{{
+          getScoreDescriptor("Structural", establishment.scores.Structural)
+        }}]
+      </li>
+      <li *ngIf="establishment.scores.ConfidenceInManagement !== null">
+        Confidence In Management:
+        {{ establishment.scores.ConfidenceInManagement }} [{{
+          getScoreDescriptor(
+            "Confidence",
+            establishment.scores.ConfidenceInManagement
+          )
+        }}]
+      </li>
+    </ul>
+
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      class="mat-elevation-z8"
+      style="width: 96%"
+    >
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>Category</th>
+        <td mat-cell *matCellDef="let element">{{ element.category }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef>Score</th>
+        <td mat-cell *matCellDef="let element">{{ element.score }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <table style="width: 100%" *ngIf="false">
+      <thead>
+        <tr>
+          <th style="text-align: left">Category</th>
+          <th style="text-align: left">Score</th>
+          <th style="text-align: left">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Hygiene</td>
+          <td>{{ establishment.scores.Hygiene }}</td>
+          <td>
+            {{ getScoreDescriptor("Hygiene", establishment.scores.Hygiene) }}
+          </td>
+        </tr>
+        <tr>
+          <td>Structural</td>
+          <td>{{ establishment.scores.Structural }}</td>
+          <td>
+            {{
+              getScoreDescriptor("Structural", establishment.scores.Structural)
+            }}
+          </td>
+        </tr>
+        <tr>
+          <td>Confidence In Management</td>
+          <td>{{ establishment.scores.ConfidenceInManagement }}</td>
+          <td>
+            {{
+              getScoreDescriptor(
+                "Confidence",
+                establishment.scores.ConfidenceInManagement
+              )
+            }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
     <div style="margin-bottom: 25px">
       <p><b>Address</b></p>
+      <p>{{ getAddressSingleLine(establishment) }}</p>
+      <!--
       <p>{{ establishment.AddressLine1 }}</p>
       <p>{{ establishment.AddressLine2 }}</p>
       <p>{{ establishment.AddressLine3 }}</p>
       <p>{{ establishment.AddressLine4 }}</p>
       <p>{{ establishment.PostCode }}</p>
+      -->
       <p>Phone: {{ establishment.Phone || "N/A" }}</p>
       <a
         mat-flat-button
@@ -27,20 +127,6 @@
         >Map</a
       >
     </div>
-    <div>Rating Date: {{ establishment.RatingDate | date }}</div>
-    <div>Rating Value: {{ establishment.RatingValue }}</div>
-    <ul>
-      <li *ngIf="establishment.scores.Hygiene !== null">
-        Hygiene: {{ establishment.scores.Hygiene }}
-      </li>
-      <li *ngIf="establishment.scores.Structural !== null">
-        Structural: {{ establishment.scores.Structural }}
-      </li>
-      <li *ngIf="establishment.scores.ConfidenceInManagement !== null">
-        Confidence In Management:
-        {{ establishment.scores.ConfidenceInManagement }}
-      </li>
-    </ul>
   </mat-card-content>
   <!-- <mat-card-actions>
     <button mat-button>LIKE</button>

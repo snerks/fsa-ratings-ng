@@ -1,11 +1,17 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { sortOptionsResponse } from './sort-options.model';
+import { Ratings } from 'src/app/models/ratings-model';
 
 export interface SearchOptions {
   businessName?: string;
   address?: string;
+
+  ratingOperator?: string;
+
+  ratingKeyName?: string;
+
   sortOptionKey?: string;
 }
 
@@ -18,9 +24,17 @@ export class SearchFormComponent implements OnInit {
   @Output()
   searchOptionsChanged: EventEmitter<SearchOptions> = new EventEmitter<SearchOptions>();
 
+  ratings = Ratings;
+
+  ratingOperator = 'Equal';
+
+  ratingOperators = ['LessThanOrEqual', 'GreaterThanOrEqual', 'Equal'];
+
   searchForm = this.fb.group({
     businessName: null,
     address: 'bristol',
+    ratingOperator: 'Equal',
+    ratingKeyName: '5',
     sortOptionKey: 'alpha',
     // address: [null, Validators.required],
     // address2: null,
@@ -103,12 +117,49 @@ export class SearchFormComponent implements OnInit {
     this.searchForm.valueChanges
       .pipe(debounceTime(500))
       .subscribe((nextValue: SearchOptions) => {
-        console.warn(`nextValue = [${JSON.stringify(nextValue)}]`);
-        this.searchOptionsChanged.emit(nextValue);
+        this.handleNextSearchOptions(nextValue);
       });
+
+    const addressFormControl = this.searchForm.get('address');
+    if (addressFormControl) {
+      const value = addressFormControl.value;
+      addressFormControl.setValue(value);
+    }
+  }
+
+  handleNextSearchOptions(nextValue: SearchOptions) {
+    console.warn(`nextValue = [${JSON.stringify(nextValue)}]`);
+
+    const haveSearchTerms = nextValue.address || nextValue.businessName;
+
+    if (!haveSearchTerms) {
+      console.warn(`nextValue has no defined search terms - will not search`);
+
+      return;
+    }
+
+    this.searchOptionsChanged.emit(nextValue);
   }
 
   onSubmit(): void {
     alert('Thanks!');
+  }
+
+  isNumericRatingKeyName() {
+    const ratingKeyNameControl = this.searchForm.get('ratingKeyName');
+
+    if (!ratingKeyNameControl) {
+      return false;
+    }
+
+    const value = ratingKeyNameControl.value;
+
+    const result = this.isNumeric(value);
+
+    return result;
+  }
+
+  isNumeric(value: any) {
+    return !isNaN(value);
   }
 }

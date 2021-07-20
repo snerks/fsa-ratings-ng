@@ -39,6 +39,31 @@
               Sort option key is <strong>required</strong>
             </mat-error>
           </mat-form-field> -->
+
+          <mat-form-field *ngIf="isNumericRatingKeyName()" appearance="fill">
+            <mat-label>Rating Operator</mat-label>
+            <mat-select formControlName="ratingOperator">
+              <mat-option
+                *ngFor="let ratingOperator of ratingOperators"
+                [value]="ratingOperator"
+              >
+                {{ ratingOperator }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Rating</mat-label>
+            <mat-select formControlName="ratingKeyName">
+              <mat-option
+                *ngFor="let rating of ratings"
+                [value]="rating.ratingKeyName"
+              >
+                {{ rating.ratingName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
           <mat-form-field appearance="fill">
             <mat-label>Sort Options</mat-label>
             <mat-select formControlName="sortOptionKey">

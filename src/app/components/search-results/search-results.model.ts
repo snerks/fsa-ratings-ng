@@ -34,6 +34,7 @@ export interface Establishment {
   NewRatingPending: boolean;
   meta: Meta;
   links: Link[];
+  RatingName: string;
 }
 
 // export enum AddressLine4 {

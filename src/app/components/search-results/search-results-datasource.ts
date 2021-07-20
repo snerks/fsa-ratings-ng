@@ -4,66 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge, Subject } from 'rxjs';
 import { Establishment, SearchResult } from './search-results.model';
-
-// TODO: Replace this with your own data model type
-// export interface SearchResultsItem {
-//   name: string;
-//   id: number;
-// }
-
-// TODO: replace this with real data from your application
-// const EXAMPLE_DATA: SearchResultItem[] = [
-//   {
-//     FHRSID: 1014425,
-//     ChangesByServerID: 0,
-//     LocalAuthorityBusinessID: '249133',
-//     BusinessName: 'Scrummy Pig/Crusty Cob & The Coffee & Pasty Shop',
-//     BusinessType: 'Takeaway/sandwich shop',
-//     BusinessTypeID: 7844,
-//     AddressLine1: 'Bristol City Football Club',
-//     AddressLine2: 'Ashton Road',
-//     AddressLine3: 'Ashton',
-//     AddressLine4: 'Bristol',
-//     PostCode: 'BS3 2EJ',
-//     Phone: '',
-//     RatingValue: '5',
-//     RatingKey: 'fhrs_5_en-gb',
-//     RatingDate: '2018-01-17T00:00:00',
-//     LocalAuthorityCode: '855',
-//     LocalAuthorityName: 'Bristol',
-//     LocalAuthorityWebSite: 'http://www.bristol.gov.uk',
-//     LocalAuthorityEmailAddress: 'food.safety@bristol.gov.uk',
-//     scores: {
-//       Hygiene: 0,
-//       Structural: 0,
-//       ConfidenceInManagement: 0,
-//     },
-//     SchemeType: 'FHRS',
-//     geocode: {
-//       longitude: '-2.62102',
-//       latitude: '51.439893',
-//     },
-//     RightToReply: '',
-//     Distance: null,
-//     NewRatingPending: false,
-//     meta: {
-//       dataSource: null,
-//       extractDate: '0001-01-01T00:00:00',
-//       itemCount: 0,
-//       returncode: null,
-//       totalCount: 0,
-//       totalPages: 0,
-//       pageSize: 0,
-//       pageNumber: 0,
-//     },
-//     links: [
-//       {
-//         rel: 'self',
-//         href: 'http://api.ratings.food.gov.uk/establishments/1014425',
-//       },
-//     ],
-//   },
-// ];
+import { Rating } from 'src/app/models/ratings-model';
 
 /**
  * Data source for the SearchResults view. This class should
@@ -72,10 +13,12 @@ import { Establishment, SearchResult } from './search-results.model';
  */
 export class SearchResultsDataSource extends DataSource<Establishment> {
   searchResultSubject = new Subject<SearchResult>();
+  ratingsSubject = new Subject<Rating[]>();
 
   data: Establishment[] = [];
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
+  ratings: Rating[] = [];
 
   constructor() {
     super();
@@ -92,6 +35,7 @@ export class SearchResultsDataSource extends DataSource<Establishment> {
       // stream for the data-table to consume.
       return merge(
         // observableOf(this.data),
+        this.ratingsSubject,
         this.searchResultSubject,
         this.paginator.page,
         this.sort.sortChange
@@ -107,8 +51,21 @@ export class SearchResultsDataSource extends DataSource<Establishment> {
           //   return;
           // }
 
+          if (Array.isArray(next as any)) {
+            this.ratings = next as Rating[];
+          }
+
           if ((next as any).establishments) {
-            this.data = (next as any).establishments;
+            const transformedEstablishments = (next as any)
+              .establishments as Establishment[];
+
+            transformedEstablishments.forEach((item) => {
+              item.RatingName =
+                this.ratings.find((i) => i.ratingKeyName === item.RatingValue)
+                  ?.ratingName ?? item.RatingValue.toString();
+            });
+
+            this.data = transformedEstablishments;
           }
           return this.getPagedData(this.getSortedData([...this.data]));
         })

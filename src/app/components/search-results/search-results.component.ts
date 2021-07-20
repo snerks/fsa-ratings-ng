@@ -1,10 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { FsaRatingsService } from '../fsa-ratings.service';
+import { formatRatingValue } from '../rating-utils';
 import { SearchOptions } from '../search-form/search-form.component';
 import {
   SearchResultsDataSource /*, SearchResultsItem */,
@@ -16,7 +24,9 @@ import { Establishment, SearchResult } from './search-results.model';
   templateUrl: './search-results.component.html',
   styleUrls: ['./search-results.component.scss'],
 })
-export class SearchResultsComponent implements AfterViewInit {
+export class SearchResultsComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   // @ViewChild(MatPaginator) paginator!: MatPaginator;
   // @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true })
@@ -28,7 +38,8 @@ export class SearchResultsComponent implements AfterViewInit {
   @ViewChild(MatTable) table!: MatTable<Establishment>;
   dataSource: SearchResultsDataSource;
 
-  getSearchResultsSubscription?: Subscription;
+  getSearchResultsSubscription = Subscription.EMPTY;
+  getRatingsResponseSubscription = Subscription.EMPTY;
 
   private _searchOptions: SearchOptions = {
     businessName: '',
@@ -48,7 +59,9 @@ export class SearchResultsComponent implements AfterViewInit {
       .getSearchResult(
         nextValue.businessName || '',
         nextValue.address || '',
-        nextValue.sortOptionKey || ''
+        nextValue.sortOptionKey || '',
+        nextValue.ratingKeyName || '',
+        nextValue.ratingOperator || 'Equal'
       )
       .subscribe(
         (result) => {
@@ -70,7 +83,8 @@ export class SearchResultsComponent implements AfterViewInit {
     'FHRSID',
     'BusinessName',
     'PostCode',
-    'RatingValue',
+    // 'RatingValue',
+    'RatingName',
     'Details',
   ];
 
@@ -78,9 +92,31 @@ export class SearchResultsComponent implements AfterViewInit {
     this.dataSource = new SearchResultsDataSource();
   }
 
+  ngOnInit(): void {
+    this.getRatingsResponseSubscription = this.fsaRatingsService
+      .getRatingsResponse()
+      .subscribe({
+        next: (result) => {
+          this.dataSource.ratingsSubject.next(result.ratings);
+        },
+        error: (err) => {
+          console.error((err as any).message);
+        },
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.getSearchResultsSubscription.unsubscribe();
+    this.getRatingsResponseSubscription.unsubscribe();
+  }
+
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
+  }
+
+  formatRatingValueLocal(value: string | number) {
+    return formatRatingValue(value);
   }
 }
