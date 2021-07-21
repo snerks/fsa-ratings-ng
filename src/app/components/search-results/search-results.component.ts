@@ -80,7 +80,7 @@ export class SearchResultsComponent
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = [
-    'FHRSID',
+    // 'FHRSID',
     'BusinessName',
     'PostCode',
     // 'RatingValue',
