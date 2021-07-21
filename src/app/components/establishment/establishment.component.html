@@ -11,14 +11,61 @@
     alt="Photo of a Shiba Inu"
   />
   <mat-card-content>
-    <div *ngIf="isNumeric(establishment.RatingValue)">
-      Rating Date: {{ establishment.RatingDate | date }}
-    </div>
-    <div *ngIf="false">
-      Rating Value: {{ formatRatingValueLocal(establishment.RatingValue) }}
-    </div>
-    <div>
-      Rating Value: {{ formatRatingValueLocal(establishment.RatingName) }}
+    <div
+      style="
+        /* margin-bottom: 25px; */
+        padding-right: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      "
+    >
+      <!-- Rating Value: {{ formatRatingValueLocal(establishment.RatingName) }} -->
+      <mat-chip-list
+        aria-label="Rating Value"
+        *ngIf="isNumeric(establishment.RatingValue)"
+        [selectable]="false"
+      >
+        <mat-chip
+          [disabled]="establishment.RatingName !== '0'"
+          [selected]="establishment.RatingName === '0'"
+          >0</mat-chip
+        >
+        <mat-chip
+          [disabled]="establishment.RatingName !== '1'"
+          [selected]="establishment.RatingName === '1'"
+          >1</mat-chip
+        >
+        <mat-chip
+          [disabled]="establishment.RatingName !== '2'"
+          [selected]="establishment.RatingName === '2'"
+          >2</mat-chip
+        >
+        <mat-chip
+          [disabled]="establishment.RatingName !== '3'"
+          [selected]="establishment.RatingName === '3'"
+          >3</mat-chip
+        >
+        <mat-chip
+          [disabled]="establishment.RatingName !== '4'"
+          [selected]="establishment.RatingName === '4'"
+          >4</mat-chip
+        >
+        <mat-chip
+          [disabled]="establishment.RatingName !== '5'"
+          [selected]="establishment.RatingName === '5'"
+          >5</mat-chip
+        >
+
+        <!-- <mat-chip color="primary" selected>Primary fish</mat-chip>
+        <mat-chip color="accent" selected>Accent fish</mat-chip> -->
+      </mat-chip-list>
+      <div *ngIf="!isNumeric(establishment.RatingValue)">
+        Rating Value: {{ formatRatingValueLocal(establishment.RatingValue) }}
+      </div>
+      <span *ngIf="isNumeric(establishment.RatingValue)">
+        {{ " " }} {{ establishment.RatingDate | date }}
+      </span>
     </div>
 
     <ul *ngIf="false">
@@ -44,6 +91,7 @@
     </ul>
 
     <table
+      *ngIf="isNumeric(establishment.RatingValue)"
       mat-table
       [dataSource]="dataSource"
       class="mat-elevation-z8"
@@ -108,17 +156,27 @@
       </tbody>
     </table>
 
-    <div style="margin-bottom: 25px">
-      <p><b>Address</b></p>
-      <p>{{ getAddressSingleLine(establishment) }}</p>
-      <!--
+    <div
+      style="
+        /* margin-bottom: 25px; */
+        padding-right: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      "
+    >
+      <div>
+        <!-- <p><b>Address</b></p> -->
+        <p>{{ getAddressSingleLine(establishment) }}</p>
+        <!--
       <p>{{ establishment.AddressLine1 }}</p>
       <p>{{ establishment.AddressLine2 }}</p>
       <p>{{ establishment.AddressLine3 }}</p>
       <p>{{ establishment.AddressLine4 }}</p>
       <p>{{ establishment.PostCode }}</p>
       -->
-      <p>Phone: {{ establishment.Phone || "N/A" }}</p>
+        <p>Phone: {{ establishment.Phone || "N/A" }}</p>
+      </div>
       <a
         mat-flat-button
         color="primary"

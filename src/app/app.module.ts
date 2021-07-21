@@ -21,12 +21,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SearchComponent } from './components/search/search.component';
 import { EstablishmentComponent } from './components/establishment/establishment.component';
 
 @NgModule({
-  declarations: [AppComponent, NavComponent, SearchResultsComponent, SearchFormComponent, SearchComponent, EstablishmentComponent],
+  declarations: [
+    AppComponent,
+    NavComponent,
+    SearchResultsComponent,
+    SearchFormComponent,
+    SearchComponent,
+    EstablishmentComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -45,6 +53,7 @@ import { EstablishmentComponent } from './components/establishment/establishment
     MatSelectModule,
     MatRadioModule,
     MatCardModule,
+    MatChipsModule,
     ReactiveFormsModule,
   ],
   providers: [],

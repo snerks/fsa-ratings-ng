@@ -45,9 +45,9 @@
             <mat-select formControlName="ratingOperator">
               <mat-option
                 *ngFor="let ratingOperator of ratingOperators"
-                [value]="ratingOperator"
+                [value]="ratingOperator.value"
               >
-                {{ ratingOperator }}
+                {{ ratingOperator.displayValue }}
               </mat-option>
             </mat-select>
           </mat-form-field>
