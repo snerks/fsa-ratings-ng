@@ -4,30 +4,68 @@
       <mat-card-title> Search Terms </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input
-              matInput
-              placeholder="Business Name"
-              formControlName="businessName"
-            />
-          </mat-form-field>
-        </div>
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Address" formControlName="address" />
-            <mat-error
-              *ngIf="searchForm.controls['address'].hasError('required')"
+      <div
+        style="display: flex; flex-wrap: wrap; justify-content: space-between"
+      >
+        <!-- <div class="col"> -->
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Business Name"
+            formControlName="businessName"
+          />
+        </mat-form-field>
+        <!-- </div> -->
+        <!-- <div class="col"> -->
+        <mat-form-field>
+          <input matInput placeholder="Address" formControlName="address" />
+          <mat-error
+            *ngIf="searchForm.controls['address'].hasError('required')"
+          >
+            Address is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <!-- </div> -->
+
+        <mat-form-field *ngIf="isNumericRatingKeyName()">
+          <mat-label>Rating Operator</mat-label>
+          <mat-select formControlName="ratingOperator">
+            <mat-option
+              *ngFor="let ratingOperator of ratingOperators"
+              [value]="ratingOperator.value"
             >
-              Address is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
+              {{ ratingOperator.displayValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Rating</mat-label>
+          <mat-select formControlName="ratingKeyName">
+            <mat-option
+              *ngFor="let rating of ratings"
+              [value]="rating.ratingKeyName"
+            >
+              {{ rating.ratingName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Sort Options</mat-label>
+          <mat-select formControlName="sortOptionKey">
+            <mat-option
+              *ngFor="let sortOption of sortOptions"
+              [value]="sortOption.sortOptionKey"
+            >
+              {{ sortOption.sortOptionName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="row">
-        <div class="col">
-          <!-- <mat-form-field class="full-width">
+      <!-- <div class="row"> -->
+      <!-- <div class="col"> -->
+      <!-- <mat-form-field class="full-width">
             <input
               matInput
               placeholder="Sort Option Key"
@@ -40,43 +78,16 @@
             </mat-error>
           </mat-form-field> -->
 
-          <mat-form-field *ngIf="isNumericRatingKeyName()" appearance="fill">
-            <mat-label>Rating Operator</mat-label>
-            <mat-select formControlName="ratingOperator">
-              <mat-option
-                *ngFor="let ratingOperator of ratingOperators"
-                [value]="ratingOperator.value"
-              >
-                {{ ratingOperator.displayValue }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+      <!-- </div> -->
 
-          <mat-form-field appearance="fill">
-            <mat-label>Rating</mat-label>
-            <mat-select formControlName="ratingKeyName">
-              <mat-option
-                *ngFor="let rating of ratings"
-                [value]="rating.ratingKeyName"
-              >
-                {{ rating.ratingName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+      <!-- <div class="col"> -->
 
-          <mat-form-field appearance="fill">
-            <mat-label>Sort Options</mat-label>
-            <mat-select formControlName="sortOptionKey">
-              <mat-option
-                *ngFor="let sortOption of sortOptions"
-                [value]="sortOption.sortOptionKey"
-              >
-                {{ sortOption.sortOptionName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
+      <!-- </div> -->
+
+      <!-- <div class="col"> -->
+
+      <!-- </div> -->
+      <!-- </div> -->
       <!-- <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
