@@ -13,7 +13,7 @@
   <mat-card-content>
     <div
       style="
-        /* margin-bottom: 25px; */
+        margin-bottom: 15px;
         padding-right: 40px;
         display: flex;
         justify-content: space-between;
@@ -177,13 +177,21 @@
       -->
         <p>Phone: {{ establishment.Phone || "N/A" }}</p>
       </div>
-      <a
+      <!-- <a
         mat-flat-button
         color="primary"
         [href]="getMapUrl(establishment)"
         target="_blank"
         >Map</a
+      > -->
+      <a
+        mat-flat-button
+        color="primary"
+        [href]="getMapUrl(establishment)"
+        target="_blank"
       >
+        <mat-icon aria-hidden="false" aria-label="map icon">place</mat-icon>
+      </a>
     </div>
   </mat-card-content>
   <!-- <mat-card-actions>
