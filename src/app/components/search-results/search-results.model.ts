@@ -37,13 +37,6 @@ export interface Establishment {
   RatingName: string;
 }
 
-// export enum AddressLine4 {
-//   Bristol = "Bristol",
-//   Empty = "",
-//   London = "London",
-//   SouthGloucestershire = "South Gloucestershire",
-// }
-
 export enum SchemeType {
   Fhrs = 'FHRS',
 }

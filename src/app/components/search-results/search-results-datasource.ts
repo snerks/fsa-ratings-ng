@@ -6,7 +6,7 @@ import { Observable, of as observableOf, merge, Subject } from 'rxjs';
 import { Establishment, SearchResult } from './search-results.model';
 import { Rating } from 'src/app/models/ratings-model';
 
-type EstablishmentKeys = keyof Establishment;
+export type EstablishmentKeys = keyof Establishment;
 
 /**
  * Data source for the SearchResults view. This class should

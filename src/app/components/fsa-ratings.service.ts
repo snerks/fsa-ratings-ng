@@ -24,6 +24,7 @@ export class FsaRatingsService {
   headersOptions = {
     headers: {
       'x-api-version': '2',
+      // 'Accept-Language': 'cy-GB',
     },
   };
   getSearchResult(
@@ -31,12 +32,15 @@ export class FsaRatingsService {
     address: string,
     sortOptionKey: string,
     ratingKeyName: string,
-    ratingOperator: string
+    ratingOperator: string,
+    maximumResultCount?: number
   ) {
     return this.httpClient.get<SearchResult>(
       `${this.baseUrl}Establishments?name=${name}&address=${encodeURIComponent(
         address
-      )}&sortOptionKey=${sortOptionKey}&pageSize=100&ratingKey=${ratingKeyName}&ratingOperatorKey=${ratingOperator}`,
+      )}&sortOptionKey=${sortOptionKey}&pageSize=${
+        maximumResultCount === undefined ? '' : maximumResultCount
+      }&ratingKey=${ratingKeyName}&ratingOperatorKey=${ratingOperator}`,
       this.headersOptions
     );
   }

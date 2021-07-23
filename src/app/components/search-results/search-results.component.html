@@ -1,4 +1,34 @@
 <div class="mat-elevation-z8">
+  <div
+    *ngIf="
+      totalSearchResultCount &&
+      maximumResultCount &&
+      totalSearchResultCount > maximumResultCount
+    "
+    style="display: flex; justify-content: flex-start; align-content: center"
+  >
+    <!-- style="display: flex; justify-content: flex-start; justify-items: center" -->
+    <span style="margin-left: 20px">Total Search Result Count</span>
+    <mat-chip-list style="margin-left: 20px">
+      <mat-chip [disabled]="false" [selected]="true">{{
+        totalSearchResultCount
+      }}</mat-chip>
+    </mat-chip-list>
+  </div>
+
+  <p
+    *ngIf="
+      false &&
+      totalSearchResultCount &&
+      maximumResultCount &&
+      totalSearchResultCount > maximumResultCount
+    "
+  >
+    <span [matBadge]="totalSearchResultCount" matBadgeOverlap="false"
+      >Total Search Result Count</span
+    >
+  </p>
+
   <mat-paginator
     #paginator
     [length]="dataSource?.data?.length"
@@ -62,7 +92,7 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 </div>

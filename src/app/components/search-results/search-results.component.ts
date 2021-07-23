@@ -15,6 +15,7 @@ import { FsaRatingsService } from '../fsa-ratings.service';
 import { formatRatingValue } from '../rating-utils';
 import { SearchOptions } from '../search-form/search-form.component';
 import {
+  EstablishmentKeys,
   SearchResultsDataSource /*, SearchResultsItem */,
 } from './search-results-datasource';
 import { Establishment, SearchResult } from './search-results.model';
@@ -43,9 +44,11 @@ export class SearchResultsComponent
 
   private _searchOptions: SearchOptions = {
     businessName: '',
-    address: 'Bristol',
+    address: '',
     sortOptionKey: 'alpha',
   };
+  totalSearchResultCount: number | undefined = undefined;
+  maximumResultCount: number | undefined = undefined;
 
   @Input()
   set searchOptions(nextValue: SearchOptions) {
@@ -61,12 +64,15 @@ export class SearchResultsComponent
         nextValue.address || '',
         nextValue.sortOptionKey || '',
         nextValue.ratingKeyName || '',
-        nextValue.ratingOperator || 'Equal'
+        nextValue.ratingOperator || 'Equal',
+        nextValue.maximumResultCount
       )
       .subscribe(
         (result) => {
           this.paginator.pageIndex = 0;
           this.dataSource.searchResultSubject.next(result);
+          this.totalSearchResultCount = result.meta.totalCount;
+          this.maximumResultCount = nextValue.maximumResultCount;
         },
         (err) => {
           console.error((err as any).message);

@@ -22,6 +22,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatBadgeModule } from '@angular/material/badge';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SearchComponent } from './components/search/search.component';
 import { EstablishmentComponent } from './components/establishment/establishment.component';
@@ -54,6 +55,7 @@ import { EstablishmentComponent } from './components/establishment/establishment
     MatRadioModule,
     MatCardModule,
     MatChipsModule,
+    MatBadgeModule,
     ReactiveFormsModule,
   ],
   providers: [],

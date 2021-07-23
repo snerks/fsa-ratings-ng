@@ -19,6 +19,8 @@ export interface SearchOptions {
   ratingKeyName?: string;
 
   sortOptionKey?: string;
+
+  maximumResultCount?: number;
 }
 
 @Component({
@@ -49,22 +51,35 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     },
   ];
 
+  maximumResultCountOptions = [
+    {
+      value: 0,
+      displayValue: 'None',
+    },
+    {
+      value: 100,
+      displayValue: '100',
+    },
+    {
+      value: 250,
+      displayValue: '250',
+    },
+    {
+      value: 500,
+      displayValue: '500',
+    },
+  ];
+
   defaultSearchOptions: SearchOptions = {
     businessName: '',
-    address: 'bristol',
+    address: '',
     ratingOperator: 'Equal',
     ratingKeyName: '5',
     sortOptionKey: 'alpha',
+    maximumResultCount: 100,
   };
 
   searchForm: FormGroup = this.fb.group({});
-  // this.fb.group({
-  //   businessName: null,
-  //   address: 'bristol',
-  //   ratingOperator: 'Equal',
-  //   ratingKeyName: '5',
-  //   sortOptionKey: 'alpha',
-  // });
 
   sortOptions = sortOptionsResponse.sortOptions;
 
@@ -86,6 +101,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
       ratingOperator,
       ratingKeyName,
       sortOptionKey,
+      maximumResultCount,
     } = searchOptions;
 
     this.searchForm = this.fb.group({
@@ -94,6 +110,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
       ratingOperator,
       ratingKeyName,
       sortOptionKey,
+      maximumResultCount,
     });
 
     this.searchForm.valueChanges
