@@ -23,6 +23,15 @@ export interface SearchOptions {
   maximumResultCount?: number;
 }
 
+export const defaultSearchOptions: SearchOptions = {
+  businessName: '',
+  address: '',
+  ratingOperator: 'Equal',
+  ratingKeyName: '5',
+  sortOptionKey: 'alpha',
+  maximumResultCount: 100,
+};
+
 @Component({
   selector: 'app-search-form',
   templateUrl: './search-form.component.html',
@@ -70,15 +79,6 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     },
   ];
 
-  defaultSearchOptions: SearchOptions = {
-    businessName: '',
-    address: '',
-    ratingOperator: 'Equal',
-    ratingKeyName: '5',
-    sortOptionKey: 'alpha',
-    maximumResultCount: 100,
-  };
-
   searchForm: FormGroup = this.fb.group({});
 
   sortOptions = sortOptionsResponse.sortOptions;
@@ -93,7 +93,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     const searchOptionsJson = localStorage.getItem('searchOptions');
     const searchOptions: SearchOptions = searchOptionsJson
       ? JSON.parse(searchOptionsJson)
-      : this.defaultSearchOptions;
+      : defaultSearchOptions;
 
     const {
       businessName,

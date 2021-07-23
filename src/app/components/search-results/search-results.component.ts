@@ -54,6 +54,13 @@ export class SearchResultsComponent
   set searchOptions(nextValue: SearchOptions) {
     this._searchOptions = nextValue;
 
+    const shouldSearch = nextValue.businessName || nextValue.address;
+
+    if (!shouldSearch) {
+      console.warn(`Need a business name or address to search`);
+      return;
+    }
+
     if (this.getSearchResultsSubscription) {
       this.getSearchResultsSubscription.unsubscribe();
     }
