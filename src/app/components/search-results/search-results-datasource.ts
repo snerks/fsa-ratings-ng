@@ -6,6 +6,8 @@ import { Observable, of as observableOf, merge, Subject } from 'rxjs';
 import { Establishment, SearchResult } from './search-results.model';
 import { Rating } from 'src/app/models/ratings-model';
 
+type EstablishmentKeys = keyof Establishment;
+
 /**
  * Data source for the SearchResults view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
@@ -107,13 +109,21 @@ export class SearchResultsDataSource extends DataSource<Establishment> {
 
     return data.sort((a, b) => {
       const isAsc = this.sort?.direction === 'asc';
-      switch (this.sort?.active) {
+
+      const activeSortKey = this.sort?.active ?? 'BusinessName';
+      const establishmentKey: EstablishmentKeys =
+        activeSortKey as EstablishmentKeys;
+
+      // switch (this.sort?.active) {
+      switch (establishmentKey) {
         case 'BusinessName':
           return compare(a.BusinessName, b.BusinessName, isAsc);
         case 'FHRSID':
-          return compare(+a.FHRSID, +b.FHRSID, isAsc);
-        case 'RatingValue':
-          return compare(+a.RatingValue, +b.RatingValue, isAsc);
+          return compare(a.FHRSID, b.FHRSID, isAsc);
+        case 'RatingName':
+          return compare(a.RatingName, b.RatingName, isAsc);
+        case 'PostCode':
+          return compare(a.PostCode, b.PostCode, isAsc);
         default:
           return 0;
       }
